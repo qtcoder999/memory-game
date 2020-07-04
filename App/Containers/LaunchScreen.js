@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {ScrollView, Text, View} from 'react-native';
-import CardList from './CardList';
+import CardList from './cardList/cardList';
 
 // Styles
 import styles from './Styles/LaunchScreenStyles';

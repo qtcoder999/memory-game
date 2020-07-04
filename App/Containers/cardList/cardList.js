@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {ScrollView, Text, Image, View} from 'react-native';
 import {connect} from 'react-redux';
-import Card from './Cards';
-import GameActions from '../Redux/GameRedux';
+import GameActions from '../../Redux/GameRedux';
 // Styles
-import styles from './Styles/LaunchScreenStyles';
+import styles from '../Styles/LaunchScreenStyles';
+import {renderCards} from './utils';
 
 class CardList extends Component {
   constructor(props) {
@@ -12,15 +12,16 @@ class CardList extends Component {
   }
 
   componentDidMount() {
+    const {startGame} = this.props;
     console.log('props in Carlist component', this.props);
+    startGame();
   }
-  
+
   render() {
+    const {cards} = this.props;
     return (
       <View style={styles.mainContainer}>
-        <ScrollView style={styles.container}>
-          <Card />
-        </ScrollView>
+        <ScrollView style={styles.container}>{renderCards(cards)}</ScrollView>
       </View>
     );
   }

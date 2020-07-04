@@ -1,9 +1,10 @@
 import {createReducer, createActions} from 'reduxsauce';
 import Immutable from 'seamless-immutable';
+import {getCardsArray} from '../Containers/cardList/utils';
 
 const GAME_DATA = {
   gameConfig: {
-    level: 1,
+    level: 10,
   },
   currentCard: {},
   cards: [],
@@ -28,12 +29,18 @@ export const INITIAL_STATE = Immutable({
 
 /* ------------- Reducers ------------- */
 
-export const startGame = state => {
-  // return state.merge({searching: true, searchTerm, results});
+export const startGame = (state = INITIAL_STATE) => {
+  const {
+    gameConfig: {level},
+  } = state;
+
+  const cards = getCardsArray(level);
+
+
+  return state.merge({...cards});
 };
 
-export const increaseLevel = state => {
-};
+export const increaseLevel = state => {};
 
 export const resetGame = state => INITIAL_STATE;
 

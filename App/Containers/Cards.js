@@ -5,11 +5,17 @@ import {ScrollView, Text, Image, View} from 'react-native';
 import styles from './Styles/LaunchScreenStyles';
 
 export default class Card extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
+    const {value, status} = this.props;
     return (
       <View style={styles.mainContainer}>
         <ScrollView style={styles.container}>
-          <Text style={styles.sectionText}>Card</Text>
+          <Text style={styles.sectionText}>
+            Card : {value} {status}
+          </Text>
         </ScrollView>
       </View>
     );
