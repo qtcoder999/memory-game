@@ -1,29 +1,57 @@
-import React, { Component } from 'react'
-import { ScrollView, Text, Image, View } from 'react-native'
-import { Images } from '../Themes'
+import React, {Component} from 'react';
+import {ScrollView, Text, View} from 'react-native';
+import CardList from './CardList';
 
 // Styles
-import styles from './Styles/LaunchScreenStyles'
+import styles from './Styles/LaunchScreenStyles';
+import {connect} from 'react-redux';
+import GameActions from '../Redux/GameRedux';
 
-export default class LaunchScreen extends Component {
-  render () {
+class LaunchScreen extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const {level} = this.props;
+    const score = level * 10;
+
     return (
       <View style={styles.mainContainer}>
-        <Image source={Images.background} style={styles.backgroundImage} resizeMode='stretch' />
         <ScrollView style={styles.container}>
           <View style={styles.centered}>
-            <Image source={Images.launch} style={styles.logo} />
+            <Text style={styles.sectionText}>Memory Game</Text>
           </View>
-
-          <View style={styles.section} >
-            <Image source={Images.ready} />
-            <Text style={styles.sectionText}>
-              This probably isn't what your app is going to look like. Unless your designer handed you this screen and, in that case, congrats! You're ready to ship. For everyone else, this is where you'll see a live preview of your fully functioning app using Ignite.
-            </Text>
+          <View style={styles.centered}>
+            <View>
+              <Text style={styles.sectionText}>Level</Text>
+              <Text style={styles.sectionText}>{level}</Text>
+            </View>
+            <View>
+              <Text style={styles.sectionText}>Score</Text>
+              <Text style={styles.sectionText}>{score}</Text>
+            </View>
           </View>
-
+          <View>
+            <CardList />
+          </View>
         </ScrollView>
       </View>
-    )
+    );
   }
 }
+
+const mapStateToProps = ({
+  game: {
+    gameConfig: {level},
+  },
+}) => ({
+  level,
+});
+
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(
+  mapStateToProps,
+  {},
+)(LaunchScreen);

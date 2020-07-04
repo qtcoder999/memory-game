@@ -4,7 +4,8 @@ import { Metrics, ApplicationStyles } from '../../Themes/'
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
   container: {
-    paddingBottom: Metrics.baseMargin
+    marginTop: Metrics.baseMargin,
+    paddingBottom: Metrics.baseMargin,
   },
   logo: {
     marginTop: Metrics.doubleSection,
