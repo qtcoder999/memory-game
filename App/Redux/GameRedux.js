@@ -9,6 +9,7 @@ const GAME_DATA = {
     level: 1,
     score: 0,
     chancesPending: CHANCES_GIVEN,
+    timeLeft: 2 * 60 * 1000, // 2 min
   },
   currentCard: {},
   cards: [],
@@ -31,6 +32,7 @@ const {Types, Creators} = createActions({
   setIsUnderLevelTransition: ['value'],
   setIsUnderCardTransition: ['value'],
   addScore: ['score'],
+  updateTimer: null,
 });
 
 export const GameTypes = Types;
@@ -119,7 +121,6 @@ export const setIsUnderLevelTransition = (state, {value}) => {
 };
 
 export const setIsUnderCardTransition = (state, {value}) => {
-
   return state.merge({isUnderCardTransition: value});
 };
 
@@ -127,6 +128,17 @@ export const addScore = (state, {score}) => {
   let newState = asMutable({...state}, {deep: true});
 
   newState.gameConfig.score += score;
+
+  return state.merge({
+    ...newState,
+  });
+};
+
+export const updateTimer = state => {
+  console.log('reaching here in timer reducer');
+  let newState = asMutable({...state}, {deep: true});
+
+  newState.gameConfig.timeLeft -= 1000;
 
   return state.merge({
     ...newState,
@@ -148,4 +160,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_IS_UNDER_LEVEL_TRANSITION]: setIsUnderLevelTransition,
   [Types.SET_IS_UNDER_CARD_TRANSITION]: setIsUnderCardTransition,
   [Types.ADD_SCORE]: addScore,
+  [Types.UPDATE_TIMER]: updateTimer,
 });

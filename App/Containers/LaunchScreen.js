@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {ScrollView, Text, View} from 'react-native';
 import CardList from './CardList/CardList';
+import GameActions from '../Redux/GameRedux';
 
 // Styles
 import styles from './Styles/LaunchScreenStyles';
@@ -12,22 +13,36 @@ class LaunchScreen extends Component {
     super(props);
   }
 
+  componentDidMount() {
+    const {updateTimer} = this.props;
+    this.interval = setInterval(updateTimer, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
   goToTop = () => {
     this.scroll.scrollTo({x: 0, y: 0, animated: true});
   };
 
   componentDidUpdate(prevProps, prevState) {
     const {level: previousLevel} = prevProps;
-    const {level} = this.props;
+    const {level, timeLeft, resetGame, startGame} = this.props;
 
     if (level !== previousLevel) {
       this.goToTop();
     }
+    if (timeLeft === 0) {
+      resetGame();
+      startGame();
+    }
   }
 
   render() {
-    const {level, score} = this.props;
-
+    const {level, score, timeLeft} = this.props;
+    const minutes = Math.floor(timeLeft / 60000);
+    const seconds = ((timeLeft % 60000) / 1000).toFixed(0);
     return (
       <View style={styles.mainContainer}>
         <ScrollView
@@ -50,7 +65,9 @@ class LaunchScreen extends Component {
           </View>
           <View>
             <Text style={styles.timeLeftText}>Time Left</Text>
-            <Text style={styles.timeLeftValue}>{'3:15'}></Text>
+            <Text style={styles.timeLeftValue}>
+              {minutes}:{seconds === 0 ? '00' : seconds}
+            </Text>
           </View>
           <View>
             <CardList />
@@ -63,14 +80,21 @@ class LaunchScreen extends Component {
 
 const mapStateToProps = ({
   game: {
-    gameConfig: {level, score},
+    gameConfig: {level, score, timeLeft},
   },
 }) => ({
   level,
   score,
+  timeLeft,
+});
+
+const mapDispatchToProps = dispatch => ({
+  startGame: () => dispatch(GameActions.startGame()),
+  resetGame: () => dispatch(GameActions.resetGame()),
+  updateTimer: () => dispatch(GameActions.updateTimer()),
 });
 
 export default connect(
   mapStateToProps,
-  {},
+  mapDispatchToProps,
 )(LaunchScreen);
