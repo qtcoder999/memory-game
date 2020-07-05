@@ -1,15 +1,13 @@
 import React, {Component} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 
 // Styles
-import styles from './Styles/LaunchScreenStyles';
-import {CHANCES_GIVEN} from '../Lib/CommonConstants';
+import styles from './Styles/CardListStyles';
 import {isEmptyObject} from '../Lib/CommonUtils';
 
 export default class Card extends Component {
   constructor(props) {
     super(props);
-    this.state = {isUnderCardTransition: false};
   }
 
   clickHandler = () => event => {
@@ -42,15 +40,13 @@ export default class Card extends Component {
       }
 
       if (!isEmptyObject(currentCard)) {
-
-
         if (currentCard.value && currentCard.value !== clickedCardValue) {
           setIsUnderCardTransition({value: true});
           changeStatusToOpen(id);
           setTimeout(() => {
             changeStatusToClosed(id);
             setIsUnderCardTransition({value: false});
-          }, 1);
+          }, 300);
         } else {
           changeStatusToOpen(id);
           clearCurrentCard();
@@ -72,19 +68,20 @@ export default class Card extends Component {
     console.log('render isUnderLevelTransition', isUnderLevelTransition);
 
     return (
-      <View style={styles.mainContainer}>
-        <ScrollView style={styles.container}>
-          <Text
-            style={styles.sectionText}
-            onPress={
-              !isUnderCardTransition && !isUnderLevelTransition
-                ? this.clickHandler({id, value, status})
-                : null
-            }>
-            Card {value} : {status}
-          </Text>
-        </ScrollView>
-      </View>
+      <TouchableOpacity
+        style={[
+          styles.card,
+          status === 'open' ? styles.cardOpen : styles.cardClosed,
+        ]}
+        onPress={
+          !isUnderCardTransition && !isUnderLevelTransition
+            ? this.clickHandler({id, value, status})
+            : null
+        }>
+        {status === 'open' ? (
+          <Text style={styles.cardText}>{value}</Text>
+        ) : null}
+      </TouchableOpacity>
     );
   }
 }

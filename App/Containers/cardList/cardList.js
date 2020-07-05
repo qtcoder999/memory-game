@@ -3,14 +3,13 @@ import {ScrollView, View} from 'react-native';
 import {connect} from 'react-redux';
 import GameActions from '../../Redux/GameRedux';
 // Styles
-import styles from '../Styles/LaunchScreenStyles';
+import styles from '../Styles/CardListStyles';
 import {renderCards} from './Utils';
 import {findIndexInArrayOfObjects} from '../../Lib/CommonUtils';
 
 class CardList extends Component {
   constructor(props) {
     super(props);
-    this.state = {isUnderLevelTransition: false};
   }
 
   componentDidMount() {
@@ -36,7 +35,6 @@ class CardList extends Component {
       findIndexInArrayOfObjects(cards, 'status', 'closed') === -1 &&
       !isUnderLevelTransition
     ) {
-      // eslint-disable-next-line react/no-did-update-set-state
       setIsUnderLevelTransition({value: true});
       setTimeout(() => {
         increaseLevel();
@@ -65,8 +63,8 @@ class CardList extends Component {
     console.log('props in card list ', this.props);
 
     return (
-      <View style={styles.mainContainer}>
-        <ScrollView style={styles.container}>
+      <View>
+        <View style={styles.cardList}>
           {renderCards(
             cards,
             createCurrentCard,
@@ -81,7 +79,7 @@ class CardList extends Component {
             isUnderCardTransition,
             setIsUnderCardTransition,
           )}
-        </ScrollView>
+        </View>
       </View>
     );
   }

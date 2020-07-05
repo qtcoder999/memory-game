@@ -5,11 +5,23 @@ import CardList from './CardList/CardList';
 // Styles
 import styles from './Styles/LaunchScreenStyles';
 import {connect} from 'react-redux';
-import GameActions from '../Redux/GameRedux';
 
 class LaunchScreen extends Component {
   constructor(props) {
     super(props);
+  }
+
+  goToTop = () => {
+    this.scroll.scrollTo({x: 0, y: 0, animated: true});
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    const {level: previousLevel} = prevProps;
+    const {level} = this.props;
+
+    if (level !== previousLevel) {
+      this.goToTop();
+    }
   }
 
   render() {
@@ -18,18 +30,22 @@ class LaunchScreen extends Component {
 
     return (
       <View style={styles.mainContainer}>
-        <ScrollView style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          ref={c => {
+            this.scroll = c;
+          }}>
           <View style={styles.centered}>
             <Text style={styles.sectionText}>Memory Game</Text>
           </View>
           <View style={styles.centered}>
             <View>
-              <Text style={styles.sectionText}>Level</Text>
-              <Text style={styles.sectionText}>{level}</Text>
+              <Text style={styles.scoreText}>Level</Text>
+              <Text style={styles.scoreValue}>{level}</Text>
             </View>
             <View>
-              <Text style={styles.sectionText}>Score</Text>
-              <Text style={styles.sectionText}>{score}</Text>
+              <Text style={styles.scoreText}>Score</Text>
+              <Text style={styles.scoreValue}>{score}</Text>
             </View>
           </View>
           <View>
@@ -48,8 +64,6 @@ const mapStateToProps = ({
 }) => ({
   level,
 });
-
-const mapDispatchToProps = dispatch => ({});
 
 export default connect(
   mapStateToProps,

@@ -1,6 +1,6 @@
-import Fonts from './Fonts'
-import Metrics from './Metrics'
-import Colors from './Colors'
+import Fonts from './Fonts';
+import Metrics from './Metrics';
+import Colors from './Colors';
 
 // This file is for a reusable grouping of Theme items.
 // Similar to an XML fragment layout in Android
@@ -8,63 +8,89 @@ import Colors from './Colors'
 const ApplicationStyles = {
   screen: {
     mainContainer: {
+      display: 'flex',
       flex: 1,
-      backgroundColor: Colors.transparent
+      flexGrow: 1,
+      backgroundColor: Colors.transparent,
     },
     backgroundImage: {
       position: 'absolute',
       top: 0,
       left: 0,
       bottom: 0,
-      right: 0
+      right: 0,
     },
     container: {
       flex: 1,
       paddingTop: Metrics.baseMargin,
-      backgroundColor: Colors.transparent
+      backgroundColor: Colors.transparent,
     },
     section: {
       margin: Metrics.section,
-      padding: Metrics.baseMargin
+      padding: Metrics.baseMargin,
     },
     sectionText: {
-      ...Fonts.style.normal,
+      fontFamily: Fonts.type.bold,
+      fontWeight: 'bold',
+      fontSize: 18,
       paddingVertical: Metrics.doubleBaseMargin,
       color: Colors.blue,
       marginVertical: Metrics.smallMargin,
-      textAlign: 'center'
+      textAlign: 'center',
     },
     scoreText: {
-      color: Colors.charcoal,
+      fontFamily: Fonts.type.bold,
+      fontWeight: 'bold',
+      paddingVertical: Metrics.doubleBaseMargin,
+      color: Colors.black,
+      marginVertical: Metrics.smallMargin,
+      textAlign: 'center',
+      fontSize: 16,
+    },
+    scoreValue: {
+      fontFamily: Fonts.type.bold,
+      fontWeight: 'bold',
+      color: Colors.red,
+      fontSize: 16,
+    },
+    cardClosed: {
+      fontFamily: Fonts.type.bold,
+      fontWeight: 'bold',
+      backgroundColor: Colors.green,
+    },
+    cardOpen: {
+      fontFamily: Fonts.type.bold,
+      fontWeight: 'bold',
+      backgroundColor: Colors.green,
     },
     subtitle: {
       color: Colors.snow,
       padding: Metrics.smallMargin,
       marginBottom: Metrics.smallMargin,
-      marginHorizontal: Metrics.smallMargin
+      marginHorizontal: Metrics.smallMargin,
     },
     titleText: {
       ...Fonts.style.h2,
       fontSize: 14,
-      color: Colors.text
-    }
+      color: Colors.text,
+    },
   },
   darkLabelContainer: {
     padding: Metrics.smallMargin,
     paddingBottom: Metrics.doubleBaseMargin,
     borderBottomColor: Colors.border,
     borderBottomWidth: 1,
-    marginBottom: Metrics.baseMargin
+    marginBottom: Metrics.baseMargin,
   },
   darkLabel: {
     fontFamily: Fonts.type.bold,
-    color: Colors.snow
+    color: Colors.snow,
   },
   groupContainer: {
     margin: Metrics.smallMargin,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   sectionTitle: {
     ...Fonts.style.h4,
@@ -76,8 +102,8 @@ const ApplicationStyles = {
     borderWidth: 1,
     borderColor: Colors.ember,
     alignItems: 'center',
-    textAlign: 'center'
-  }
-}
+    textAlign: 'center',
+  },
+};
 
-export default ApplicationStyles
+export default ApplicationStyles;
