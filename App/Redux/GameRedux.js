@@ -1,10 +1,11 @@
 import {createReducer, createActions} from 'reduxsauce';
-import Immutable from 'seamless-immutable';
+import Immutable, {asMutable} from 'seamless-immutable';
 import {getCardsArray} from '../Containers/cardList/utils';
+import {findIndexInArrayOfObjects} from '../Lib/commonUtils';
 
 const GAME_DATA = {
   gameConfig: {
-    level: 10,
+    level: 1,
   },
   currentCard: {},
   cards: [],
@@ -16,6 +17,7 @@ const {Types, Creators} = createActions({
   resetGame: null,
   startGame: null,
   increaseLevel: null,
+  createCurrentCard: ['card'],
 });
 
 export const GameTypes = Types;
@@ -29,6 +31,8 @@ export const INITIAL_STATE = Immutable({
 
 /* ------------- Reducers ------------- */
 
+export const resetGame = state => INITIAL_STATE;
+
 export const startGame = (state = INITIAL_STATE) => {
   const {
     gameConfig: {level},
@@ -36,13 +40,30 @@ export const startGame = (state = INITIAL_STATE) => {
 
   const cards = getCardsArray(level);
 
-
-  return state.merge({...cards});
+  return state.merge({cards});
 };
 
-export const increaseLevel = state => {};
+export const increaseLevel = state => {
+  let newState = asMutable({...state}, {deep: true});
 
-export const resetGame = state => INITIAL_STATE;
+  newState.gameConfig.level++;
+
+  return state.merge({
+    ...newState,
+  });
+};
+
+export const createCurrentCard = (state, {card}) => {
+  let newState = asMutable({...state}, {deep: true});
+
+  const {cards} = newState;
+
+  const foundIndex = findIndexInArrayOfObjects(cards, 'id', card.id);
+
+  foundIndex > -1 ? (cards[foundIndex].status = 'open') : null;
+
+  return state.merge({cards, currentCard: card});
+};
 
 /* ------------- Hookup Reducers To Types ------------- */
 
@@ -50,4 +71,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.RESET_GAME]: resetGame,
   [Types.START_GAME]: startGame,
   [Types.INCREASE_LEVEL]: increaseLevel,
+  [Types.CREATE_CURRENT_CARD]: createCurrentCard,
 });

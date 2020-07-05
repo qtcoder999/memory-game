@@ -1,28 +1,21 @@
 import React from 'react';
 import shortid from 'shortid';
 import Card from '../Cards';
+import {duplicateElements, shuffleArray} from '../../Lib/commonUtils';
 
-export const renderCards = cards => {
+export const renderCards = (cards, createCurrentCard) => {
   return (
     cards &&
     cards.map(({id, value, status}) => (
-      <Card key={id} id={id} value={value} status={status} />
+      <Card
+        clickHandler={createCurrentCard}
+        key={id}
+        id={id}
+        value={value}
+        status={status}
+      />
     ))
   );
-};
-
-export const shuffleArray = array => {
-  for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-};
-
-export const duplicateElements = arr => {
-  return arr.reduce(function(res, current, index, array) {
-    return res.concat([current, current]);
-  }, []);
 };
 
 export const getTotalNumbers = level => {

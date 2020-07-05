@@ -5,6 +5,7 @@ import GameActions from '../../Redux/GameRedux';
 // Styles
 import styles from '../Styles/LaunchScreenStyles';
 import {renderCards} from './utils';
+import {findIndexInArrayOfObjects} from '../../Lib/commonUtils';
 
 class CardList extends Component {
   constructor(props) {
@@ -13,21 +14,38 @@ class CardList extends Component {
 
   componentDidMount() {
     const {startGame} = this.props;
-    console.log('props in Carlist component', this.props);
     startGame();
   }
 
+  componentDidUpdate() {
+    const {cards, increaseLevel, startGame} = this.props;
+
+    // if no card left, increase level
+    if (
+      cards.length > 0 &&
+      findIndexInArrayOfObjects(cards, 'status', 'closed') === -1
+    ) {
+      increaseLevel();
+      startGame();
+    }
+  }
+
   render() {
-    const {cards} = this.props;
+    const {cards, createCurrentCard} = this.props;
+
+    console.log('props in cardlist', this.props);
+
     return (
       <View style={styles.mainContainer}>
-        <ScrollView style={styles.container}>{renderCards(cards)}</ScrollView>
+        <ScrollView style={styles.container}>
+          {renderCards(cards, createCurrentCard)}
+        </ScrollView>
       </View>
     );
   }
 }
 
-const mapStateToProps = ({game: {cards, currentCard, gameConfig}}) => {
+const mapStateToProps = ({game: {cards, currentCard}}) => {
   return {
     cards,
     currentCard,
@@ -36,6 +54,8 @@ const mapStateToProps = ({game: {cards, currentCard, gameConfig}}) => {
 
 const mapDispatchToProps = dispatch => ({
   startGame: () => dispatch(GameActions.startGame()),
+  createCurrentCard: card => dispatch(GameActions.createCurrentCard(card)),
+  increaseLevel: () => dispatch(GameActions.increaseLevel()),
 });
 
 export default connect(
