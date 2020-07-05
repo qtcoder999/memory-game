@@ -40,8 +40,12 @@ class LaunchScreen extends Component {
 
   render() {
     const {level, score, timeLeft} = this.props;
-    const minutes = Math.floor(timeLeft / 60000);
-    const seconds = ((timeLeft % 60000) / 1000).toFixed(0);
+    let minutes = Math.floor(timeLeft / 60000);
+    let seconds = ((timeLeft % 60000) / 1000).toFixed(0);
+
+    if (seconds < 10) {
+      seconds = '0' + seconds;
+    }
     return (
       <View style={styles.mainContainer}>
         <ScrollView
