@@ -13,14 +13,16 @@ class CardList extends Component {
   }
 
   componentDidMount() {
-    const {startGame} = this.props;
+    const {startGame, resetGame} = this.props;
+
+    resetGame();
     startGame();
   }
 
   componentDidUpdate() {
     const {cards, increaseLevel, startGame} = this.props;
 
-    // if no card left, increase level
+    // if no card is left, increase level
     if (
       cards.length > 0 &&
       findIndexInArrayOfObjects(cards, 'status', 'closed') === -1
@@ -38,9 +40,13 @@ class CardList extends Component {
       renewChances,
       chancesPending,
       clearCurrentCard,
+      currentCard,
+      changeStatusToClosed,
+      changeStatusToOpen,
     } = this.props;
 
-    console.log('props in cardlist', this.props);
+    // console.log('props in cardlist', this.props);
+    // console.log('chancesPending in cardlist', chancesPending);
 
     return (
       <View style={styles.mainContainer}>
@@ -52,6 +58,9 @@ class CardList extends Component {
             renewChances,
             chancesPending,
             clearCurrentCard,
+            currentCard,
+            changeStatusToClosed,
+            changeStatusToOpen,
           )}
         </ScrollView>
       </View>
@@ -75,11 +84,14 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = dispatch => ({
   startGame: () => dispatch(GameActions.startGame()),
+  resetGame: () => dispatch(GameActions.resetGame()),
   createCurrentCard: card => dispatch(GameActions.createCurrentCard(card)),
   increaseLevel: () => dispatch(GameActions.increaseLevel()),
   decrementChances: () => dispatch(GameActions.decrementChances()),
   renewChances: () => dispatch(GameActions.renewChances()),
   clearCurrentCard: () => dispatch(GameActions.clearCurrentCard()),
+  changeStatusToClosed: id => dispatch(GameActions.changeStatusToClosed(id)),
+  changeStatusToOpen: id => dispatch(GameActions.changeStatusToOpen(id)),
 });
 
 export default connect(

@@ -10,6 +10,9 @@ export const renderCards = (
   renewChances,
   chancesPending,
   clearCurrentCard,
+  currentCard,
+  changeStatusToClosed,
+  changeStatusToOpen,
 ) => {
   return (
     cards &&
@@ -20,6 +23,9 @@ export const renderCards = (
         renewChances={renewChances}
         chancesPending={chancesPending}
         clearCurrentCard={clearCurrentCard}
+        currentCard={currentCard}
+        changeStatusToClosed={changeStatusToClosed}
+        changeStatusToOpen={changeStatusToOpen}
         key={id}
         id={id}
         value={value}

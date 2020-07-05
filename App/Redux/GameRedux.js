@@ -23,6 +23,8 @@ const {Types, Creators} = createActions({
   renewChances: null,
   decrementChances: null,
   clearCurrentCard: null,
+  changeStatusToClosed: ['id'],
+  changeStatusToOpen: ['id'],
 });
 
 export const GameTypes = Types;
@@ -59,23 +61,15 @@ export const increaseLevel = state => {
 };
 
 export const createCurrentCard = (state, {card}) => {
-  let newState = asMutable({...state}, {deep: true});
-
-  const {cards} = newState;
-
-  const foundIndex = findIndexInArrayOfObjects(cards, 'id', card.id);
-
-  foundIndex > -1 ? (cards[foundIndex].status = 'open') : null;
-
-  return state.merge({cards, currentCard: card});
+  return state.merge({currentCard: card});
 };
 
 export const renewChances = state => {
-  let gameConfig = asMutable({...state.gameConfig}, {deep: true});
+  let newState = asMutable({...state}, {deep: true});
 
-  gameConfig.chancesPending = CHANCES_GIVEN;
+  newState.gameConfig.chancesPending = CHANCES_GIVEN;
 
-  return state.merge({gameConfig});
+  return state.merge({...newState});
 };
 
 export const decrementChances = state => {
@@ -90,6 +84,30 @@ export const clearCurrentCard = state => {
   return state.merge({currentCard: {}});
 };
 
+export const changeStatusToClosed = (state, {id}) => {
+  let newState = asMutable({...state}, {deep: true});
+
+  const {cards} = newState;
+
+  const foundIndex = findIndexInArrayOfObjects(cards, 'id', id);
+
+  foundIndex > -1 ? (cards[foundIndex].status = 'closed') : null;
+
+  return state.merge({cards});
+};
+
+export const changeStatusToOpen = (state, {id}) => {
+  let newState = asMutable({...state}, {deep: true});
+
+  const {cards} = newState;
+
+  const foundIndex = findIndexInArrayOfObjects(cards, 'id', id);
+
+  foundIndex > -1 ? (cards[foundIndex].status = 'open') : null;
+
+  return state.merge({cards});
+};
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -99,5 +117,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CREATE_CURRENT_CARD]: createCurrentCard,
   [Types.RENEW_CHANCES]: renewChances,
   [Types.DECREMENT_CHANCES]: decrementChances,
-  [Types.CLEAR_CURRENT_CARD]: clearCurrentCard
+  [Types.CLEAR_CURRENT_CARD]: clearCurrentCard,
+  [Types.CHANGE_STATUS_TO_CLOSED]: changeStatusToClosed,
+  [Types.CHANGE_STATUS_TO_OPEN]: changeStatusToOpen,
 });
