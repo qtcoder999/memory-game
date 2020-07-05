@@ -16,6 +16,7 @@ export const renderCards = (
   isUnderLevelTransition,
   isUnderCardTransition,
   setIsUnderCardTransition,
+  level,
 ) => {
   return (
     cards &&
@@ -32,6 +33,7 @@ export const renderCards = (
         isUnderLevelTransition={isUnderLevelTransition}
         isUnderCardTransition={isUnderCardTransition}
         setIsUnderCardTransition={setIsUnderCardTransition}
+        level={level}
         key={id}
         id={id}
         value={value}

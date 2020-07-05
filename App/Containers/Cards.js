@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import {Text, TouchableOpacity} from 'react-native';
+import {Dimensions} from 'react-native';
+
+const screenWidth = Math.round(Dimensions.get('window').width);
 
 // Styles
 import styles from './Styles/CardListStyles';
@@ -24,7 +27,6 @@ export default class Card extends Component {
       isUnderCardTransition,
       setIsUnderCardTransition,
     } = this.props;
-
 
     if (!isUnderCardTransition && !isUnderLevelTransition) {
       if (isEmptyObject(currentCard)) {
@@ -55,12 +57,16 @@ export default class Card extends Component {
       status,
       isUnderCardTransition,
       isUnderLevelTransition,
+      level,
     } = this.props;
 
     return (
       <TouchableOpacity
         style={[
           styles.card,
+          level && level > 1
+            ?  {width: screenWidth / 3 - 20, height: 100}
+            : {width: screenWidth / 2 - 20, height: 250},
           status === 'open' ? styles.cardOpen : styles.cardClosed,
         ]}
         onPress={

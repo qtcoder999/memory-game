@@ -60,6 +60,7 @@ class CardList extends Component {
       isUnderLevelTransition,
       isUnderCardTransition,
       setIsUnderCardTransition,
+      level,
     } = this.props;
 
     return (
@@ -78,6 +79,7 @@ class CardList extends Component {
             isUnderLevelTransition,
             isUnderCardTransition,
             setIsUnderCardTransition,
+            level,
           )}
         </View>
       </View>
@@ -100,7 +102,7 @@ const mapStateToProps = ({
     chancesPending,
     isUnderLevelTransition,
     isUnderCardTransition,
-    level
+    level,
   };
 };
 

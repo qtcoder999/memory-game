@@ -17,8 +17,6 @@ const CardListStyles = {
   },
   card: {
     display: 'flex',
-    width: screenWidth / 2 - 20,
-    height: 250,
     borderRadius: 7,
     marginVertical: 8,
     marginHorizontal: 5,
