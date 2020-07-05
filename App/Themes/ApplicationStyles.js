@@ -41,7 +41,6 @@ const ApplicationStyles = {
     scoreText: {
       fontFamily: Fonts.type.bold,
       fontWeight: 'bold',
-      paddingVertical: Metrics.doubleBaseMargin,
       color: Colors.black,
       marginVertical: Metrics.smallMargin,
       textAlign: 'center',

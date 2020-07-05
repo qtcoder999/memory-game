@@ -25,8 +25,7 @@ class LaunchScreen extends Component {
   }
 
   render() {
-    const {level} = this.props;
-    const score = level * 10;
+    const {level, score} = this.props;
 
     return (
       <View style={styles.mainContainer}>
@@ -35,15 +34,15 @@ class LaunchScreen extends Component {
           ref={c => {
             this.scroll = c;
           }}>
-          <View style={styles.centered}>
+          <View style={styles.heading}>
             <Text style={styles.sectionText}>Memory Game</Text>
           </View>
           <View style={styles.centered}>
-            <View>
+            <View style={styles.subHeading}>
               <Text style={styles.scoreText}>Level</Text>
               <Text style={styles.scoreValue}>{level}</Text>
             </View>
-            <View>
+            <View style={styles.subHeading}>
               <Text style={styles.scoreText}>Score</Text>
               <Text style={styles.scoreValue}>{score}</Text>
             </View>
@@ -59,10 +58,11 @@ class LaunchScreen extends Component {
 
 const mapStateToProps = ({
   game: {
-    gameConfig: {level},
+    gameConfig: {level, score},
   },
 }) => ({
   level,
+  score,
 });
 
 export default connect(

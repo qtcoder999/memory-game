@@ -26,6 +26,8 @@ class CardList extends Component {
       startGame,
       isUnderLevelTransition,
       setIsUnderLevelTransition,
+      addScore,
+      level,
     } = this.props;
 
     console.log('isUnderLevelTransition', isUnderLevelTransition);
@@ -37,6 +39,7 @@ class CardList extends Component {
     ) {
       setIsUnderLevelTransition({value: true});
       setTimeout(() => {
+        addScore({score: level * 10});
         increaseLevel();
         startGame();
         setIsUnderLevelTransition({value: false});
@@ -89,7 +92,7 @@ const mapStateToProps = ({
   game: {
     cards,
     currentCard,
-    gameConfig: {chancesPending},
+    gameConfig: {chancesPending, level},
     isUnderLevelTransition,
     isUnderCardTransition,
   },
@@ -100,6 +103,7 @@ const mapStateToProps = ({
     chancesPending,
     isUnderLevelTransition,
     isUnderCardTransition,
+    level
   };
 };
 
@@ -117,6 +121,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(GameActions.setIsUnderLevelTransition(value)),
   setIsUnderCardTransition: ({value}) =>
     dispatch(GameActions.setIsUnderCardTransition(value)),
+  addScore: ({score}) => dispatch(GameActions.addScore(score)),
 });
 
 export default connect(

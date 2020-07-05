@@ -7,6 +7,7 @@ import {CHANCES_GIVEN} from '../Lib/CommonConstants';
 const GAME_DATA = {
   gameConfig: {
     level: 1,
+    score: 0,
     chancesPending: CHANCES_GIVEN,
   },
   currentCard: {},
@@ -29,6 +30,7 @@ const {Types, Creators} = createActions({
   changeStatusToOpen: ['id'],
   setIsUnderLevelTransition: ['value'],
   setIsUnderCardTransition: ['value'],
+  addScore: ['score'],
 });
 
 export const GameTypes = Types;
@@ -136,6 +138,17 @@ export const setIsUnderCardTransition = (state, {value}) => {
   return state.merge({isUnderCardTransition: value});
 };
 
+export const addScore = (state, {score}) => {
+  console.log("score: ", score)
+  let newState = asMutable({...state}, {deep: true});
+
+  newState.gameConfig.score += score;
+
+  return state.merge({
+    ...newState,
+  });
+};
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -150,4 +163,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CHANGE_STATUS_TO_OPEN]: changeStatusToOpen,
   [Types.SET_IS_UNDER_LEVEL_TRANSITION]: setIsUnderLevelTransition,
   [Types.SET_IS_UNDER_CARD_TRANSITION]: setIsUnderCardTransition,
+  [Types.ADD_SCORE]: addScore,
 });
