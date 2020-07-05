@@ -5,6 +5,7 @@ import CardList from './CardList/CardList';
 // Styles
 import styles from './Styles/LaunchScreenStyles';
 import {connect} from 'react-redux';
+import Timer from 'react-compound-timer';
 
 class LaunchScreen extends Component {
   constructor(props) {
@@ -46,6 +47,10 @@ class LaunchScreen extends Component {
               <Text style={styles.scoreText}>Score</Text>
               <Text style={styles.scoreValue}>{score}</Text>
             </View>
+          </View>
+          <View>
+            <Text style={styles.timeLeftText}>Time Left</Text>
+            <Text style={styles.timeLeftValue}>{'3:15'}></Text>
           </View>
           <View>
             <CardList />
