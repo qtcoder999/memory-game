@@ -13,6 +13,9 @@ export const renderCards = (
   currentCard,
   changeStatusToClosed,
   changeStatusToOpen,
+  isUnderLevelTransition,
+  isUnderCardTransition,
+  setIsUnderCardTransition,
 ) => {
   return (
     cards &&
@@ -26,6 +29,9 @@ export const renderCards = (
         currentCard={currentCard}
         changeStatusToClosed={changeStatusToClosed}
         changeStatusToOpen={changeStatusToOpen}
+        isUnderLevelTransition={isUnderLevelTransition}
+        isUnderCardTransition={isUnderCardTransition}
+        setIsUnderCardTransition={setIsUnderCardTransition}
         key={id}
         id={id}
         value={value}

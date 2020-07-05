@@ -10,6 +10,7 @@ import {findIndexInArrayOfObjects} from '../../Lib/CommonUtils';
 class CardList extends Component {
   constructor(props) {
     super(props);
+    this.state = {isUnderLevelTransition: false};
   }
 
   componentDidMount() {
@@ -20,16 +21,27 @@ class CardList extends Component {
   }
 
   componentDidUpdate() {
-    const {cards, increaseLevel, startGame} = this.props;
+    const {
+      cards,
+      increaseLevel,
+      startGame,
+      isUnderLevelTransition,
+      setIsUnderLevelTransition,
+    } = this.props;
 
+    console.log('isUnderLevelTransition', isUnderLevelTransition);
     // if no card is left, increase level
     if (
       cards.length > 0 &&
-      findIndexInArrayOfObjects(cards, 'status', 'closed') === -1
+      findIndexInArrayOfObjects(cards, 'status', 'closed') === -1 &&
+      !isUnderLevelTransition
     ) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      setIsUnderLevelTransition({value: true});
       setTimeout(() => {
         increaseLevel();
         startGame();
+        setIsUnderLevelTransition({value: false});
       }, 1);
     }
   }
@@ -45,7 +57,12 @@ class CardList extends Component {
       currentCard,
       changeStatusToClosed,
       changeStatusToOpen,
+      isUnderLevelTransition,
+      isUnderCardTransition,
+      setIsUnderCardTransition,
     } = this.props;
+
+    console.log('props in card list ', this.props);
 
     return (
       <View style={styles.mainContainer}>
@@ -60,6 +77,9 @@ class CardList extends Component {
             currentCard,
             changeStatusToClosed,
             changeStatusToOpen,
+            isUnderLevelTransition,
+            isUnderCardTransition,
+            setIsUnderCardTransition,
           )}
         </ScrollView>
       </View>
@@ -72,12 +92,16 @@ const mapStateToProps = ({
     cards,
     currentCard,
     gameConfig: {chancesPending},
+    isUnderLevelTransition,
+    isUnderCardTransition,
   },
 }) => {
   return {
     cards,
     currentCard,
     chancesPending,
+    isUnderLevelTransition,
+    isUnderCardTransition,
   };
 };
 
@@ -91,6 +115,10 @@ const mapDispatchToProps = dispatch => ({
   clearCurrentCard: () => dispatch(GameActions.clearCurrentCard()),
   changeStatusToClosed: id => dispatch(GameActions.changeStatusToClosed(id)),
   changeStatusToOpen: id => dispatch(GameActions.changeStatusToOpen(id)),
+  setIsUnderLevelTransition: ({value}) =>
+    dispatch(GameActions.setIsUnderLevelTransition(value)),
+  setIsUnderCardTransition: ({value}) =>
+    dispatch(GameActions.setIsUnderCardTransition(value)),
 });
 
 export default connect(

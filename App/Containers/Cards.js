@@ -9,7 +9,7 @@ import {isEmptyObject} from '../Lib/CommonUtils';
 export default class Card extends Component {
   constructor(props) {
     super(props);
-    this.state = {freezeGameDuringTimeout: false};
+    this.state = {isUnderCardTransition: false};
   }
 
   clickHandler = () => event => {
@@ -18,41 +18,58 @@ export default class Card extends Component {
       value: clickedCardValue,
       status,
       createCurrentCard,
-      decrementChances,
-      renewChances,
-      chancesPending,
       clearCurrentCard,
       currentCard,
       changeStatusToClosed,
       changeStatusToOpen,
+      isUnderLevelTransition,
+      isUnderCardTransition,
+      setIsUnderCardTransition,
     } = this.props;
 
-    if (isEmptyObject(currentCard)) {
-      createCurrentCard({id, value: clickedCardValue, status});
-      changeStatusToOpen(id);
-    }
+    console.log(
+      'event fired',
+      'isUnderCardTransition',
+      isUnderCardTransition,
+      'isUnderLevelTransition',
+      isUnderLevelTransition,
+    );
 
-    if (!isEmptyObject(currentCard)) {
-      this.setState({freezeGameDuringTimeout: true});
-
-      if (currentCard.value !== clickedCardValue) {
+    if (!isUnderCardTransition && !isUnderLevelTransition) {
+      if (isEmptyObject(currentCard)) {
+        createCurrentCard({id, value: clickedCardValue, status});
         changeStatusToOpen(id);
-      } else {
-        changeStatusToOpen(id);
-        clearCurrentCard();
       }
-    }
-    if (currentCard.value && currentCard.value !== clickedCardValue) {
-      setTimeout(() => {
-        changeStatusToClosed(id);
-        this.setState({freezeGameDuringTimeout: false});
-      }, 1);
+
+      if (!isEmptyObject(currentCard)) {
+
+
+        if (currentCard.value && currentCard.value !== clickedCardValue) {
+          setIsUnderCardTransition({value: true});
+          changeStatusToOpen(id);
+          setTimeout(() => {
+            changeStatusToClosed(id);
+            setIsUnderCardTransition({value: false});
+          }, 1);
+        } else {
+          changeStatusToOpen(id);
+          clearCurrentCard();
+        }
+      }
     }
   };
 
   render() {
-    const {id, value, status, chancesPending} = this.props;
-    const {freezeGameDuringTimeout} = this.state;
+    const {
+      id,
+      value,
+      status,
+      isUnderCardTransition,
+      isUnderLevelTransition,
+    } = this.props;
+
+    console.log('render isUnderCardTransition', isUnderCardTransition);
+    console.log('render isUnderLevelTransition', isUnderLevelTransition);
 
     return (
       <View style={styles.mainContainer}>
@@ -60,7 +77,7 @@ export default class Card extends Component {
           <Text
             style={styles.sectionText}
             onPress={
-              !freezeGameDuringTimeout
+              !isUnderCardTransition && !isUnderLevelTransition
                 ? this.clickHandler({id, value, status})
                 : null
             }>

@@ -11,6 +11,8 @@ const GAME_DATA = {
   },
   currentCard: {},
   cards: [],
+  isUnderLevelTransition: false,
+  isUnderCardTransition: false,
 };
 
 /* ------------- Types and Action Creators ------------- */
@@ -25,6 +27,8 @@ const {Types, Creators} = createActions({
   clearCurrentCard: null,
   changeStatusToClosed: ['id'],
   changeStatusToOpen: ['id'],
+  setIsUnderLevelTransition: ['value'],
+  setIsUnderCardTransition: ['value'],
 });
 
 export const GameTypes = Types;
@@ -108,6 +112,30 @@ export const changeStatusToOpen = (state, {id}) => {
   return state.merge({cards});
 };
 
+export const setIsUnderLevelTransition = (state, {value}) => {
+  console.log('reducer IsUnderLevelTransition', value);
+
+  console.log(
+    'state after change in reducer',
+    state.merge({isUnderLevelTransition: value}),
+  );
+
+  return state.merge({isUnderLevelTransition: value});
+};
+
+export const setIsUnderCardTransition = (state, {value}) => {
+  console.log('reduxStore', state);
+
+  console.log('reducer setIsUnderCardTransition', value);
+
+  console.log(
+    'state after change in reducer',
+    state.merge({isUnderCardTransition: value}),
+  );
+
+  return state.merge({isUnderCardTransition: value});
+};
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -120,4 +148,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CLEAR_CURRENT_CARD]: clearCurrentCard,
   [Types.CHANGE_STATUS_TO_CLOSED]: changeStatusToClosed,
   [Types.CHANGE_STATUS_TO_OPEN]: changeStatusToOpen,
+  [Types.SET_IS_UNDER_LEVEL_TRANSITION]: setIsUnderLevelTransition,
+  [Types.SET_IS_UNDER_CARD_TRANSITION]: setIsUnderCardTransition,
 });
