@@ -30,7 +30,6 @@ class CardList extends Component {
       level,
     } = this.props;
 
-    console.log('isUnderLevelTransition', isUnderLevelTransition);
     // if no card is left, increase level
     if (
       cards.length > 0 &&
@@ -62,8 +61,6 @@ class CardList extends Component {
       isUnderCardTransition,
       setIsUnderCardTransition,
     } = this.props;
-
-    console.log('props in card list ', this.props);
 
     return (
       <View>

@@ -115,31 +115,15 @@ export const changeStatusToOpen = (state, {id}) => {
 };
 
 export const setIsUnderLevelTransition = (state, {value}) => {
-  console.log('reducer IsUnderLevelTransition', value);
-
-  console.log(
-    'state after change in reducer',
-    state.merge({isUnderLevelTransition: value}),
-  );
-
   return state.merge({isUnderLevelTransition: value});
 };
 
 export const setIsUnderCardTransition = (state, {value}) => {
-  console.log('reduxStore', state);
-
-  console.log('reducer setIsUnderCardTransition', value);
-
-  console.log(
-    'state after change in reducer',
-    state.merge({isUnderCardTransition: value}),
-  );
 
   return state.merge({isUnderCardTransition: value});
 };
 
 export const addScore = (state, {score}) => {
-  console.log("score: ", score)
   let newState = asMutable({...state}, {deep: true});
 
   newState.gameConfig.score += score;

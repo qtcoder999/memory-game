@@ -25,13 +25,6 @@ export default class Card extends Component {
       setIsUnderCardTransition,
     } = this.props;
 
-    console.log(
-      'event fired',
-      'isUnderCardTransition',
-      isUnderCardTransition,
-      'isUnderLevelTransition',
-      isUnderLevelTransition,
-    );
 
     if (!isUnderCardTransition && !isUnderLevelTransition) {
       if (isEmptyObject(currentCard)) {
@@ -63,9 +56,6 @@ export default class Card extends Component {
       isUnderCardTransition,
       isUnderLevelTransition,
     } = this.props;
-
-    console.log('render isUnderCardTransition', isUnderCardTransition);
-    console.log('render isUnderLevelTransition', isUnderLevelTransition);
 
     return (
       <TouchableOpacity
