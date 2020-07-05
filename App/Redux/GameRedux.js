@@ -135,7 +135,6 @@ export const addScore = (state, {score}) => {
 };
 
 export const updateTimer = state => {
-  console.log('reaching here in timer reducer');
   let newState = asMutable({...state}, {deep: true});
 
   newState.gameConfig.timeLeft -= 1000;
