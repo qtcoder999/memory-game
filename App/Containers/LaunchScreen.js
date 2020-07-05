@@ -6,7 +6,6 @@ import GameActions from '../Redux/GameRedux';
 // Styles
 import styles from './Styles/LaunchScreenStyles';
 import {connect} from 'react-redux';
-import Timer from 'react-compound-timer';
 
 class LaunchScreen extends Component {
   constructor(props) {
