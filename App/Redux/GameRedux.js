@@ -1,11 +1,13 @@
 import {createReducer, createActions} from 'reduxsauce';
 import Immutable, {asMutable} from 'seamless-immutable';
-import {getCardsArray} from '../Containers/cardList/utils';
-import {findIndexInArrayOfObjects} from '../Lib/commonUtils';
+import {getCardsArray} from '../Containers/CardList/Utils';
+import {findIndexInArrayOfObjects} from '../Lib/CommonUtils';
+import {CHANCES_GIVEN} from '../Lib/CommonConstants';
 
 const GAME_DATA = {
   gameConfig: {
     level: 1,
+    chancesPending: CHANCES_GIVEN,
   },
   currentCard: {},
   cards: [],
@@ -18,6 +20,9 @@ const {Types, Creators} = createActions({
   startGame: null,
   increaseLevel: null,
   createCurrentCard: ['card'],
+  renewChances: null,
+  decrementChances: null,
+  clearCurrentCard: null,
 });
 
 export const GameTypes = Types;
@@ -65,6 +70,26 @@ export const createCurrentCard = (state, {card}) => {
   return state.merge({cards, currentCard: card});
 };
 
+export const renewChances = state => {
+  let gameConfig = asMutable({...state.gameConfig}, {deep: true});
+
+  gameConfig.chancesPending = CHANCES_GIVEN;
+
+  return state.merge({gameConfig});
+};
+
+export const decrementChances = state => {
+  let newState = asMutable({...state}, {deep: true});
+
+  newState.gameConfig.chancesPending--;
+
+  return state.merge({...newState});
+};
+
+export const clearCurrentCard = state => {
+  return state.merge({currentCard: {}});
+};
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -72,4 +97,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.START_GAME]: startGame,
   [Types.INCREASE_LEVEL]: increaseLevel,
   [Types.CREATE_CURRENT_CARD]: createCurrentCard,
+  [Types.RENEW_CHANCES]: renewChances,
+  [Types.DECREMENT_CHANCES]: decrementChances,
+  [Types.CLEAR_CURRENT_CARD]: clearCurrentCard
 });

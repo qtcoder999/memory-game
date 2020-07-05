@@ -1,14 +1,25 @@
 import React from 'react';
 import shortid from 'shortid';
 import Card from '../Cards';
-import {duplicateElements, shuffleArray} from '../../Lib/commonUtils';
+import {duplicateElements, shuffleArray} from '../../Lib/CommonUtils';
 
-export const renderCards = (cards, createCurrentCard) => {
+export const renderCards = (
+  cards,
+  createCurrentCard,
+  decrementChances,
+  renewChances,
+  chancesPending,
+  clearCurrentCard,
+) => {
   return (
     cards &&
     cards.map(({id, value, status}) => (
       <Card
-        clickHandler={createCurrentCard}
+        createCurrentCard={createCurrentCard}
+        decrementChances={decrementChances}
+        renewChances={renewChances}
+        chancesPending={chancesPending}
+        clearCurrentCard={clearCurrentCard}
         key={id}
         id={id}
         value={value}
