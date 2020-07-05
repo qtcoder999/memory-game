@@ -27,10 +27,7 @@ export default class Card extends Component {
       changeStatusToOpen,
     } = this.props;
 
-    console.log('Clicked Value', clickedCardValue);
-
     if (isEmptyObject(currentCard)) {
-      console.log('red: reaching changeStatusToOpen(id);');
       createCurrentCard({id, value: clickedCardValue, status});
       changeStatusToOpen(id);
     }
@@ -48,6 +45,7 @@ export default class Card extends Component {
     if (currentCard.value && currentCard.value !== clickedCardValue) {
       setTimeout(() => {
         changeStatusToClosed(id);
+        this.setState({freezeGameDuringTimeout: false});
       }, 1);
     }
   };
@@ -55,8 +53,6 @@ export default class Card extends Component {
   render() {
     const {id, value, status, chancesPending} = this.props;
     const {freezeGameDuringTimeout} = this.state;
-
-    // console.log('chancesPending in render', chancesPending);
 
     return (
       <View style={styles.mainContainer}>

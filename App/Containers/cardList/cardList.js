@@ -27,8 +27,10 @@ class CardList extends Component {
       cards.length > 0 &&
       findIndexInArrayOfObjects(cards, 'status', 'closed') === -1
     ) {
-      increaseLevel();
-      startGame();
+      setTimeout(() => {
+        increaseLevel();
+        startGame();
+      }, 1);
     }
   }
 
@@ -44,9 +46,6 @@ class CardList extends Component {
       changeStatusToClosed,
       changeStatusToOpen,
     } = this.props;
-
-    // console.log('props in cardlist', this.props);
-    // console.log('chancesPending in cardlist', chancesPending);
 
     return (
       <View style={styles.mainContainer}>
