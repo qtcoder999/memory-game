@@ -69,7 +69,7 @@ class LaunchScreen extends Component {
           <View>
             <Text style={styles.timeLeftText}>Time Left</Text>
             <Text style={styles.timeLeftValue}>
-              {minutes}:{seconds === 0 ? '00' : seconds}
+              {minutes}:{seconds}
             </Text>
           </View>
           <View>
