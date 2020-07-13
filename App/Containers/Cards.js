@@ -70,7 +70,7 @@ export default class Card extends Component {
           status === 'open' ? styles.cardOpen : styles.cardClosed,
         ]}
         onPress={
-          !isUnderCardTransition && !isUnderLevelTransition
+          !isUnderCardTransition && !isUnderLevelTransition && status === "closed"
             ? this.clickHandler({id, value, status})
             : null
         }>
